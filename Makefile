@@ -9,8 +9,8 @@ help:
 	@echo
 
 last:    ## Build Latest Centreon (18.10)
-	@packer build -var-file vars/centreon-1810.json vagrant-centreon-local.json
+	@packer build -var-file vars/centreon-1810.json centreon-local.json
 
 18.10:     ## Build Centreon 18.10
-	@packer build -var-file vars/centreon-1810.json vagrant-centreon-local.json
+	@packer build -var-file vars/centreon-1810.json centreon-local.json
 
