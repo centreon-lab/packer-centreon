@@ -22,18 +22,6 @@ systemctl disable firewalld.service
 ## disable kdump
 systemctl disable kdump.service
 
-## disable NetworkManager
-systemctl disable NetworkManager.service
-systemctl stop NetworkManager.service
-
-## remove unused ifcfg
-rm -f /etc/sysconfig/network-scripts/ifcfg-en*
-
-## make 'eth0' the predictable network device
-rm -f /etc/udev/rules.d/70*
-ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules || true
-
-
 ##############################################################
 # Running ovfenv-installer for next reboot
 ##############################################################

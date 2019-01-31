@@ -1,5 +1,6 @@
 # Cache objects
 packer_cache/
+output-centreon-*
 
 # For built boxes
 *.box
