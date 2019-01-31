@@ -13,14 +13,14 @@
   "builders": [
     {
       "name": "centreon-{{user `centreon_release`}}",
-      "type": "virtualbox-ovf",
+      "type": "virtualbox-iso",
       "export_opts":
-        [
-          "--manifest",
-          "--vsys", "0",
-          "--description", "{{user `artifact_description`}}",
-          "--version", "{{user `artifact_version`}}"
-        ],
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--description", "{{user `artifact_description`}}",
+        "--version", "{{user `artifact_version`}}"
+      ],
       "format": "ova",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
