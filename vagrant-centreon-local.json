@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "iso_url": "",
+    "iso_checksum": "",
+    "iso_checksum_type": "sha256",
+    "redhat_release": "",
+    "redhat_platform": "x86_64",
+    "artifact_description": "",
+    "artifact_version": "",
+    "disk_size": "20480"
+  },
+
+  "builders": [
+    {
+      "name": "centreon-{{user `centreon_release`}}",
+      "type": "virtualbox-ovf",
+      "export_opts":
+        [
+          "--manifest",
+          "--vsys", "0",
+          "--description", "{{user `artifact_description`}}",
+          "--version", "{{user `artifact_version`}}"
+        ],
+      "format": "ova",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "guest_os_type": "RedHat_64",
+      "hard_drive_interface": "scsi",
+      "disk_size": "256000",
+      "floppy_files": [
+          "./ks.cfg"
+      ],
+      "headless": false,
+      "guest_additions_mode": "disable",
+      "boot_command": "<tab> inst.ks=hd:fd0:/ks.cfg <enter><wait>",
+      "boot_wait": "5s",
+      "ssh_username": "root",
+      "ssh_password": "centreon",
+      "ssh_wait_timeout": "15m",
+      "shutdown_command": "shutdown -P now"
+    }
+  ],    
+  
+  "provisioners": [
+    {
+        "type": "file",
+        "source": "./scripts",
+        "destination": "/tmp/"
+    },
+    {
+        "type": "shell",
+        "inline": [
+            "bash -ex /tmp/scripts/install.sh",
+            "rm -rf /tmp/scripts"
+        ]
+    }
+  ]
+}
+
