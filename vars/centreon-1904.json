@@ -1,0 +1,8 @@
+{
+  "iso_url": "http://iso.download.centreon.com/stable/centreon-19.04-0.el7.x86_64.iso",
+  "iso_checksum": "62b41a89d0c9b9d07d4f0dbaa7b67f7cba7dfd8aa68776b2e403742103dc2178",
+  "artifact_description": "Centreon 19.04.0 (centreon-19.04-0.el7.x86_64.iso), 20GB /, nothing extra",
+  "artifact_version": "19.04.0",
+  "centreon_release": "19.04",
+  "redhat_release": "7.6"
+}
