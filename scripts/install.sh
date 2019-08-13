@@ -32,3 +32,7 @@ ovfenv-installer --run-once --log-file=/var/log/ovfenv-installer.log
 EOF
 
 chmod +x /etc/rc.d/rc.local
+
+# Performe a update in system
+
+yum update -y
