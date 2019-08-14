@@ -282,7 +282,7 @@ systemctl enable firstboot
 systemctl enable httpd24-httpd
 systemctl enable snmpd
 systemctl enable snmptrapd
-systemctl enable rh-php71-php-fpm
+systemctl enable rh-php72-php-fpm
 systemctl enable centcore
 systemctl enable centreontrapd
 systemctl enable cbd
