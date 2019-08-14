@@ -257,14 +257,31 @@ InstallDbCentreon # Configure database
 su - centreon -c "/opt/rh/rh-php72/root/bin/php /usr/share/centreon/cron/centreon-partitioning.php"
 systemctl restart cbd
 
-if [[ $EUID -eq 0 ]]; then
-    /opt/rh/rh-php72/root/bin/php /tmp/scripts/generateUUID.php > /var/log/centreon/generateUUID.log 2>&1
-    /opt/rh/rh-php72/root/bin/php /tmp/scripts/generateAppKey.php > /var/log/centreon/generateAppKey.php 2>&1
-    MINUTES=$(($RANDOM % 59 + 1 | bc))
-    HOURS=$(($RANDOM % 23 + 1 | bc))
-    sed -r -i "s|[0-9]+ [0-9]+ (.* /usr/share/centreon/cron/centreon-send-stats.php .*)|$MINUTES $HOURS \1|g" /etc/cron.d/centreon
-    /usr/bin/systemctl restart centcore
-    /usr/bin/systemctl restart centreontrapd
-    /usr/bin/systemctl restart cbd
-fi
+# Set firstboot script
+mv /tmp/scripts/firstboot.sh /root/firstboot.sh
+chmod +x /root/firstboot.sh
+cat <<EOF > /etc/systemd/system/firstboot.service 
+[Unit]
+Description=Auto-execute post install scripts
+After=network.target
+ 
+[Service]
+ExecStart=/root/firstboot.sh
+ 
+[Install]
+WantedBy=multi-user.target
+EOF
 
+systemctl enable firstboot
+
+# Enable all others services
+systemctl enable mysql
+systemctl enable httpd24-httpd
+systemctl enable snmpd
+systemctl enable snmptrapd
+systemctl enable rh-php71-php-fpm
+systemctl enable centcore
+systemctl enable centreontrapd
+systemctl enable cbd
+systemctl enable centengine
+systemctl enable centreon

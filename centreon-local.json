@@ -80,6 +80,7 @@
       "inline": [
           "bash -ex /tmp/scripts/install.sh",
           "bash -ex /tmp/scripts/centreon-{{user `artifact_version`}}.sh",
+          "bash -ex /tmp/scripts/cleanup.sh",
           "rm -rf /tmp/scripts"
       ]
     }
