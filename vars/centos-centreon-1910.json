@@ -1,0 +1,8 @@
+{
+  "iso_url": "http://fr2.rpmfind.net/linux/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
+  "iso_checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c",
+  "artifact_description": "Centreon 19.10.0 (CentOS-7-x86_64-Minimal-1810.iso), 62GB /, nothing extra",
+  "artifact_version": "19.10.0",
+  "centreon_release": "19.10",
+  "redhat_release": "7.6"
+}

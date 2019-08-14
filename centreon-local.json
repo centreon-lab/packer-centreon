@@ -7,12 +7,12 @@
     "redhat_platform": "x86_64",
     "artifact_description": "",
     "artifact_version": "",
-    "disk_size": "20480"
+    "disk_size": "63488"
   },
 
   "builders": [
     {
-      "name": "centreon-{{user `centreon_release`}}",
+      "name": "centreon-{{user `centreon_release`}}-virtualbox",
       "type": "virtualbox-iso",
       "export_opts":
       [
@@ -27,13 +27,32 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "guest_os_type": "RedHat_64",
       "hard_drive_interface": "scsi",
-      "disk_size": "256000",
+      "disk_size": "793600",
       "floppy_files": [
-          "./ks.cfg"
+        "./boot/ks-{{user `artifact_version`}}.cfg"
       ],
       "headless": false,
       "guest_additions_mode": "disable",
-      "boot_command": "<tab> inst.ks=hd:fd0:/ks.cfg <enter><wait>",
+      "boot_command": "<tab> inst.ks=hd:fd0:/ks-{{user `artifact_version`}}.cfg <enter><wait>",
+      "boot_wait": "5s",
+      "ssh_username": "root",
+      "ssh_password": "centreon",
+      "ssh_wait_timeout": "15m",
+      "shutdown_command": "shutdown -P now"
+    },
+
+    {
+      "name": "centreon-{{user `centreon_release`}}-vmware",
+      "type": "vmware-iso",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "guest_os_type": "RedHat_64",
+      "disk_size": "793600",
+      "floppy_files": [
+        "./boot/ks-{{user `artifact_version`}}.cfg"
+      ],
+      "boot_command": "<tab> inst.ks=hd:fd0:/ks-{{user `artifact_version`}}.cfg <enter><wait>",
       "boot_wait": "5s",
       "ssh_username": "root",
       "ssh_password": "centreon",
@@ -44,16 +63,17 @@
   
   "provisioners": [
     {
-        "type": "file",
-        "source": "./scripts",
-        "destination": "/tmp/"
+      "type": "file",
+      "source": "./scripts",
+      "destination": "/tmp/"
     },
     {
-        "type": "shell",
-        "inline": [
-            "bash -ex /tmp/scripts/install.sh",
-            "rm -rf /tmp/scripts"
-        ]
+      "type": "shell",
+      "inline": [
+          "bash -ex /tmp/scripts/install.sh",
+          "bash -ex /tmp/scripts/centreon-{{user `artifact_version`}}.sh",
+          "rm -rf /tmp/scripts"
+      ]
     }
   ]
 }
