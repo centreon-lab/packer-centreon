@@ -248,6 +248,7 @@ EOF
 yum install -y centreon
 
 echo "date.timezone = Europe/Paris" > /etc/opt/rh/rh-php72/php.d/php-timezone.ini
+systemctl start mysql
 systemctl restart rh-php72-php-fpm
 systemctl restart httpd24-httpd
 sleep 5 # waiting start httpd process
