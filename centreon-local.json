@@ -21,6 +21,14 @@
         "--description", "{{user `artifact_description`}}",
         "--version", "{{user `artifact_version`}}"
       ],
+      "vboxmanage": [
+        [ 
+          "modifyvm", "{{.Name}}", "--memory", "1024"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--cpus", "1"
+        ]
+      ],
       "format": "ova",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
