@@ -248,8 +248,8 @@ EOF
 yum install -y centreon
 
 echo "date.timezone = Europe/Paris" > /etc/opt/rh/rh-php72/php.d/php-timezone.ini
-mysqladmin -u root password $MYSQL_ROOT_PASSWORD # Set password to root mysql
 systemctl restart mysql
+mysqladmin -u root password $MYSQL_ROOT_PASSWORD # Set password to root mysql
 systemctl restart rh-php72-php-fpm
 systemctl restart httpd24-httpd
 sleep 5 # waiting start httpd process
