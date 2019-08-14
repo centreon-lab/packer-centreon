@@ -258,15 +258,19 @@ su - centreon -c "/opt/rh/rh-php72/root/bin/php /usr/share/centreon/cron/centreo
 systemctl restart cbd
 
 # Set firstboot script
-mv /tmp/scripts/firstboot.sh /root/firstboot.sh
-chmod +x /root/firstboot.sh
+mkdir -p /srv/centreon/scripts
+mv /tmp/scripts/firstboot.sh /srv/centreon/scripts/
+mv /tmp/scripts/generateAppKey.php /srv/centreon/scripts/
+mv /tmp/scripts/generateUUID.php /srv/centreon/scripts/
+
+chmod +x /srv/centreon/scripts/firstboot.sh
 cat <<EOF > /etc/systemd/system/firstboot.service 
 [Unit]
 Description=Auto-execute post install scripts
 After=network.target
  
 [Service]
-ExecStart=/root/firstboot.sh
+ExecStart=/srv/centreon/scripts/firstboot.sh
  
 [Install]
 WantedBy=multi-user.target
