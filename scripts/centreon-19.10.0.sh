@@ -239,4 +239,4 @@ systemctl enable centengine
 systemctl enable centreon
 
 # Install all widgets
-yum install centreon-widget*
+yum install -y centreon-widget*
