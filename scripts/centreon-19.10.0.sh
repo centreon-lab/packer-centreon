@@ -10,7 +10,6 @@ CENTREON_ADMIN_EMAIL="admin@admin.co"
 CENTREON_ADMIN_PASSWD="change123"
 
 InstallDbCentreon() {
-    
 
     CENTREON_HOST="http://localhost"
     COOKIE_FILE="/tmp/install.cookie"
@@ -192,62 +191,12 @@ installModules() {
 
 
 yum install -y centos-release-scl wget curl
-
-cat <<EOF > /etc/yum.repos.d/centreon.repo
-[centreon-stable-noarch]
-name=Centreon open source software repository.
-baseurl=http://yum.centreon.com/standard/19.10/el7/stable/noarch/
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-stable]
-name=Centreon open source software repository.
-baseurl=http://yum.centreon.com/standard/19.10/el7/stable/\$basearch/
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-
-[centreon-testing-noarch]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/testing/noarch/
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-testing]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/testing/\$basearch/
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-unstable-noarch]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/unstable/noarch/
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-unstable]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/unstable/\$basearch/
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-canary-noarch]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/canary/noarch/
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-[centreon-canary]
-name=Centreon open source software repository. (UNSUPPORTED)
-baseurl=http://yum.centreon.com/standard/19.10/el7/canary/\$basearch/
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CES
-EOF
-
+yum install -y yum-utils http://yum.centreon.com/standard/19.10/el7/stable/noarch/RPMS/centreon-release-19.10-1.el7.centos.noarch.rpm
+yum-config-manager --enable 'centreon-testing*'
 yum install -y centreon
 
 echo "date.timezone = Europe/Paris" > /etc/opt/rh/rh-php72/php.d/php-timezone.ini
+systemctl daemon-reload
 systemctl restart mysql
 mysqladmin -u root password $MYSQL_ROOT_PASSWORD # Set password to root mysql
 systemctl restart rh-php72-php-fpm
