@@ -288,3 +288,6 @@ systemctl enable centreontrapd
 systemctl enable cbd
 systemctl enable centengine
 systemctl enable centreon
+
+# Install all widgets
+yum install centreon-widget*
