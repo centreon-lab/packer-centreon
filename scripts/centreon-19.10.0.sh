@@ -225,6 +225,9 @@ installWidgets() {
     )
 
     for WIDGET in "${WIDGETS[@]}"; do
+        # Install package
+        yum install -y centreon-widget-${WIDGET}
+        # Configure widget in Centreon
         ${CURL_CMD} -X POST \
             -H "Content-Type: application/json" \
             -H "centreon-auth-token: ${API_TOKEN}"\
@@ -253,7 +256,6 @@ systemctl restart cbd
 installPlugins
 
 # Install widgets and configure
-yum install -y centreon-widget*
 installWidgets
 
 # Set firstboot script
