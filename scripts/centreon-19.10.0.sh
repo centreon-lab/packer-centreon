@@ -212,6 +212,7 @@ installPlugins() {
             -H "centreon-auth-token: ${API_TOKEN}"\
             -d "{\"pluginpack\":[${PLUGIN}]}" \
             "${CENTREON_HOST}/centreon/api/index.php?object=centreon_pp_manager_pluginpack&action=installupdate"
+        sleep 2
     done
 }
 
