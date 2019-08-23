@@ -199,6 +199,13 @@ installPlugins() {
         '{"slug": "applications-monitoring-centreon-central", "version": "3.3.3", "action": "install"}'
     )
 
+    CENTREON_HOST="http://localhost"
+    CURL_CMD="curl -q -o /dev/null"
+    API_TOKEN=$(curl -q -d "username=admin&password=${CENTREON_ADMIN_PASSWD}" \
+        "${CENTREON_HOST}/centreon/api/index.php?action=authenticate" \
+        | cut -f2 -d":" | sed -e "s/\"//g" -e "s/}//"
+    )
+
     for PLUGIN in "${PLUGINS[@]}"; do
         ${CURL_CMD} -X POST \
             -H "Content-Type: application/json" \
@@ -222,6 +229,13 @@ installWidgets() {
         service-monitoring
         servicegroup-monitoring
         tactical-overview
+    )
+
+    CENTREON_HOST="http://localhost"
+    CURL_CMD="curl -q -o /dev/null"
+    API_TOKEN=$(curl -q -d "username=admin&password=${CENTREON_ADMIN_PASSWD}" \
+        "${CENTREON_HOST}/centreon/api/index.php?action=authenticate" \
+        | cut -f2 -d":" | sed -e "s/\"//g" -e "s/}//"
     )
 
     for WIDGET in "${WIDGETS[@]}"; do
