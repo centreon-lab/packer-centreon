@@ -208,6 +208,30 @@ installPlugins() {
     done
 }
 
+installWidgets() {
+    WIDGETS=(
+        engine-status
+        global-health
+        graph-monitoring
+        grid-map
+        host-monitoring
+        hostgroup-monitoring
+        httploader
+        live-top10-cpu-usage
+        live-top10-memory-usage
+        service-monitoring
+        servicegroup-monitoring
+        tactical-overview
+    )
+
+    for WIDGET in "${WIDGETS[@]}"; do
+        ${CURL_CMD} -X POST \
+            -H "Content-Type: application/json" \
+            -H "centreon-auth-token: ${API_TOKEN}"\
+            "${CENTREON_HOST}/centreon/api/index.php?object=centreon_module&action=install&id=${WIDGET}&type=widget"
+    done
+}
+
 
 yum install -y centos-release-scl wget curl
 yum install -y yum-utils http://yum.centreon.com/standard/19.10/el7/stable/noarch/RPMS/centreon-release-19.10-1.el7.centos.noarch.rpm
@@ -227,6 +251,10 @@ systemctl restart cbd
 
 # Install Plugins
 installPlugins
+
+# Install widgets and configure
+yum install -y centreon-widget*
+installWidgets
 
 # Set firstboot script
 mkdir -p /srv/centreon/scripts
@@ -260,5 +288,3 @@ systemctl enable cbd
 systemctl enable centengine
 systemctl enable centreon
 
-# Install all widgets
-yum install -y centreon-widget*
