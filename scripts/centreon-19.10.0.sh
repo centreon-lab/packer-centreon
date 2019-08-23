@@ -190,6 +190,25 @@ installModules() {
 }
 
 
+installPlugins() {
+    PLUGINS=(
+        '{"slug": "base-generic", "version": "3.2.1", "action": "install"}'
+        '{"slug": "applications-databases-mysql", "version": "3.1.3", "action": "install"}'
+        '{"slug": "operatingsystems-linux-snmp", "version": "3.2.1", "action": "install"}'
+        '{"slug": "applications-monitoring-centreon-database", "version":"3.3.0", "action": "install"}'
+        '{"slug": "applications-monitoring-centreon-central", "version": "3.3.3", "action": "install"}'
+    )
+
+    for PLUGIN in "${PLUGINS[@]}"; do
+        ${CURL_CMD} -X POST \
+            -H "Content-Type: application/json" \
+            -H "centreon-auth-token: ${API_TOKEN}"\
+            -d "{\"pluginpack\":[${PLUGIN}]}" \
+            "${CENTREON_HOST}/centreon/api/index.php?object=centreon_pp_manager_pluginpack&action=installupdate"
+    done
+}
+
+
 yum install -y centos-release-scl wget curl
 yum install -y yum-utils http://yum.centreon.com/standard/19.10/el7/stable/noarch/RPMS/centreon-release-19.10-1.el7.centos.noarch.rpm
 yum-config-manager --enable 'centreon-testing*'
@@ -205,6 +224,9 @@ sleep 5 # waiting start httpd process
 InstallDbCentreon # Configure database
 su - centreon -c "/opt/rh/rh-php72/root/bin/php /usr/share/centreon/cron/centreon-partitioning.php"
 systemctl restart cbd
+
+# Install Plugins
+installPlugins
 
 # Set firstboot script
 mkdir -p /srv/centreon/scripts
