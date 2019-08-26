@@ -106,20 +106,19 @@ installWidgets() {
 }
 
 
-yum install -y centos-release-scl wget curl
-yum install -y yum-utils http://yum.centreon.com/standard/19.10/el7/stable/noarch/RPMS/centreon-release-19.10-1.el7.centos.noarch.rpm
-yum-config-manager --enable 'centreon-testing*'
+yum install -y centos-release-scl wget curl yum-utils
+yum install -y http://yum.centreon.com/standard/19.04/el7/stable/noarch/RPMS/centreon-release-19.04-1.el7.centos.noarch.rpm
 yum install -y centreon
 
-echo "date.timezone = Europe/Paris" > /etc/opt/rh/rh-php72/php.d/php-timezone.ini
+echo "date.timezone = Europe/Paris" > /etc/opt/rh/rh-php71/php.d/php-timezone.ini
 systemctl daemon-reload
 systemctl restart mysql
 mysqladmin -u root password $MYSQL_ROOT_PASSWORD # Set password to root mysql
-systemctl restart rh-php72-php-fpm
+systemctl restart rh-php71-php-fpm
 systemctl restart httpd24-httpd
 sleep 5 # waiting start httpd process
 InstallDbCentreon # Configure database
-su - centreon -c "/opt/rh/rh-php72/root/bin/php /usr/share/centreon/cron/centreon-partitioning.php"
+su - centreon -c "/opt/rh/rh-php71/root/bin/php /usr/share/centreon/cron/centreon-partitioning.php"
 systemctl restart cbd
 
 # Install Plugins
@@ -153,10 +152,9 @@ systemctl enable firstboot
 systemctl enable httpd24-httpd
 systemctl enable snmpd
 systemctl enable snmptrapd
-systemctl enable rh-php72-php-fpm
+systemctl enable rh-php71-php-fpm
 systemctl enable centcore
 systemctl enable centreontrapd
 systemctl enable cbd
 systemctl enable centengine
 systemctl enable centreon
-

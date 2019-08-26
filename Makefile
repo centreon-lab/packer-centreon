@@ -17,8 +17,8 @@ last:    ## Build Latest Centreon (19.10-centos)
 19.04:     ## Build Centreon 19.04
 	@packer build -var-file vars/centreon-1904.json centreon-local.json
 
-19.04-1:     ## Build Centreon 19.04-1
-	@packer build -var-file vars/centreon-1904-1.json centreon-local.json
+19.04-centos:     ## Build Centreon 19.04 over Centos ISO
+	@packer build -var-file vars/centos-centreon-1904.json centreon-local.json
 
 19.10-centos:     ## Build Centreon 19.10 over Centos ISO
 	@packer build -var-file vars/centos-centreon-1910.json centreon-local.json
