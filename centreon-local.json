@@ -22,12 +22,8 @@
         "--version", "{{user `artifact_version`}}"
       ],
       "vboxmanage": [
-        [ 
-          "modifyvm", "{{.Name}}", "--memory", "1024"
-        ],
-        [
-          "modifyvm", "{{.Name}}", "--cpus", "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "format": "ova",
       "iso_url": "{{user `iso_url`}}",
@@ -56,6 +52,32 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "guest_os_type": "RedHat_64",
+      "disk_size": "793600",
+      "floppy_files": [
+        "./boot/ks-{{user `artifact_version`}}.cfg"
+      ],
+      "boot_command": "<tab> inst.ks=hd:fd0:/ks-{{user `artifact_version`}}.cfg <enter><wait>",
+      "boot_wait": "5s",
+      "ssh_username": "root",
+      "ssh_password": "centreon",
+      "ssh_wait_timeout": "15m",
+      "shutdown_command": "shutdown -P now"
+    },
+
+    {
+      "name": "centreon-{{user `centreon_release`}}-qemu",
+      "type": "qemu",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "qemuargs": [
+        [ "-m", "1024M" ],
+        [ "-display", "gtk" ]
+      ],
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio-scsi",
       "disk_size": "793600",
       "floppy_files": [
         "./boot/ks-{{user `artifact_version`}}.cfg"
